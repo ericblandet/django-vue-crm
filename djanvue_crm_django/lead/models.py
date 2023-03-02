@@ -43,3 +43,5 @@ class Lead(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     team = models.ForeignKey(Team, related_name='leads',
                              on_delete=models.CASCADE)
+    assigned_to = models.ForeignKey(
+        User, related_name='assignedleads', on_delete=models.SET_NULL, blank=True, null=True)
