@@ -3,9 +3,9 @@
         <div class="columns is-multiline">
             <div class="column is-12">
                 <h1 class="title">{{ lead.company }}</h1>
-
                 <router-link :to="{ name: 'EditLead', params: lead.id }" class="button is-light">Edit</router-link>
             </div>
+
             <div class="column is-6">
                 <div class="box">
                     <h2 class="subtitle">Details</h2>
@@ -26,10 +26,12 @@
             <div class="column is-6">
                 <div class="box">
                     <h2 class="subtitle">Contact information</h2>
+
                     <p><strong>Contact Person:</strong> {{ lead.contact_person }}</p>
-                    <p><strong>Email:</strong> {{ lead.email }}</p>§
+                    <p><strong>Email:</strong> {{ lead.email }}</p>
                     <p><strong>Phone:</strong> {{ lead.phone }}</p>
                     <p><strong>Website:</strong> {{ lead.website }}</p>
+
                 </div>
             </div>
         </div>
