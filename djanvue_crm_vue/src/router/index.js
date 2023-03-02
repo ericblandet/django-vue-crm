@@ -6,6 +6,8 @@ import Dashboard from "../views/dashboard/Dashboard.vue";
 import MyAccount from "../views/dashboard/MyAccount.vue";
 import Leads from "../views/dashboard/Leads.vue";
 import AddLead from "../views/dashboard/AddLead.vue";
+import EditLead from "../views/dashboard/EditLead.vue";
+import Lead from "../views/dashboard/Lead.vue";
 import store from "../store";
 
 const routes = [
@@ -44,6 +46,22 @@ const routes = [
     path: "/dashboard/leads",
     name: "Leads",
     component: Leads,
+    meta: {
+      requireLogin: true,
+    },
+  },
+  {
+    path: "/dashboard/leads/:id",
+    name: "Lead",
+    component: Lead,
+    meta: {
+      requireLogin: true,
+    },
+  },
+  {
+    path: "/dashboard/leads/:id/edit",
+    name: "EditLead",
+    component: EditLead,
     meta: {
       requireLogin: true,
     },
