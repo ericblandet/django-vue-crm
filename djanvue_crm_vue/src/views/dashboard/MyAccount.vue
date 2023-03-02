@@ -11,7 +11,7 @@
     </div>
 </template>
 
-<script lang="js">
+<script>
 import axios from 'axios'
 
 export default {

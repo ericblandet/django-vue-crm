@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from team.models import Team
 
 
 class Lead(models.Model):
@@ -40,3 +41,5 @@ class Lead(models.Model):
         User, related_name='leads', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    team = models.ForeignKey(Team, related_name='leads',
+                             on_delete=models.CASCADE)
