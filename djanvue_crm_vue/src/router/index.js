@@ -1,24 +1,26 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import SignUp from "../views/SignUp.vue";
-import Login from "../views/Login.vue";
-import Dashboard from "../views/dashboard/Dashboard.vue";
-import MyAccount from "../views/dashboard/MyAccount.vue";
-import AddLead from "../views/dashboard/AddLead.vue";
-import EditLead from "../views/dashboard/EditLead.vue";
-import EditClient from "../views/dashboard/EditClient.vue";
-import Leads from "../views/dashboard/Leads.vue";
-import Lead from "../views/dashboard/Lead.vue";
-import AddTeam from "../views/dashboard/AddTeam.vue";
-import Team from "../views/dashboard/Team.vue";
-import AddMember from "../views/dashboard/AddMember.vue";
-import AddClient from "../views/dashboard/AddClient.vue";
-import AddNote from "../views/dashboard/AddNote.vue";
-import EditNote from "../views/dashboard/EditNote.vue";
-import EditMember from "../views/dashboard/EditMember.vue";
-import Clients from "../views/dashboard/Clients.vue";
-import Client from "../views/dashboard/Client.vue";
 import store from "../store";
+import HomeView from "../views/HomeView.vue";
+import Login from "../views/Login.vue";
+import SignUp from "../views/SignUp.vue";
+import AddClient from "../views/dashboard/AddClient.vue";
+import AddLead from "../views/dashboard/AddLead.vue";
+import AddMember from "../views/dashboard/AddMember.vue";
+import AddNote from "../views/dashboard/AddNote.vue";
+import AddTeam from "../views/dashboard/AddTeam.vue";
+import Client from "../views/dashboard/Client.vue";
+import Clients from "../views/dashboard/Clients.vue";
+import Dashboard from "../views/dashboard/Dashboard.vue";
+import EditClient from "../views/dashboard/EditClient.vue";
+import EditLead from "../views/dashboard/EditLead.vue";
+import EditMember from "../views/dashboard/EditMember.vue";
+import EditNote from "../views/dashboard/EditNote.vue";
+import Lead from "../views/dashboard/Lead.vue";
+import Leads from "../views/dashboard/Leads.vue";
+import MyAccount from "../views/dashboard/MyAccount.vue";
+import Plans from "../views/dashboard/Plans.vue";
+import Team from "../views/dashboard/Team.vue";
+import ThankYou from "../views/dashboard/ThankYou.vue";
 
 const routes = [
   {
@@ -160,6 +162,22 @@ const routes = [
     path: "/dashboard/edit-member/:id",
     name: "EditMember",
     component: EditMember,
+    meta: {
+      requireLogin: true,
+    },
+  },
+  {
+    path: "/dashboard/team/plans",
+    name: "Plans",
+    component: Plans,
+    meta: {
+      requireLogin: true,
+    },
+  },
+  {
+    path: "/dashboard/team/plans/thankyou",
+    name: "ThankYou",
+    component: ThankYou,
     meta: {
       requireLogin: true,
     },

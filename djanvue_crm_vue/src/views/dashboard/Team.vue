@@ -7,6 +7,10 @@
                 <p><strong>Plan: </strong>{{ $store.state.team.plan }}</p>
                 <p><strong>Max leads: </strong>{{ $store.state.team.max_leads }}</p>
                 <p><strong>Max clients: </strong>{{ $store.state.team.max_clients }}</p>
+
+                <p>
+                    <router-link :to="{ 'name': 'Plans' }">Change plan</router-link>
+                </p>
                 <hr />
                 <template v-if="team.created_by.id === $store.state.user.id">
                     <router-link :to="{ name: 'AddMember' }" class="button is-primary">Add Member</router-link>

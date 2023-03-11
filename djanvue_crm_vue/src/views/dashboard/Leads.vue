@@ -5,6 +5,8 @@
                 <h1 class="title">Leads</h1>
                 <router-link v-if="num_leads < $store.state.team.max_clients" to="/dashboard/leads/add">Add
                     lead</router-link>
+                <div class="notification is-danger" v-else>You have reach the top of your limitations. Please upgrade your
+                    plan!</div>
                 <hr>
                 <form>
                     <div class="field has-addons">
@@ -101,6 +103,11 @@ export default {
 
             this.showNextButton = false
             this.showPreviousButton = false
+
+            await axios.get(`/api/v1/leads`)
+                .then(response => {
+                    this.num_leads = response.data.count
+                })
 
             await axios.get(`/api/v1/leads/?page=${this.currentPage}&search=${this.query}`)
                 .then(response => {
