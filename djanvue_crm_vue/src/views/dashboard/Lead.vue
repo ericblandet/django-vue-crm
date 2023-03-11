@@ -3,6 +3,9 @@
         <div class="columns is-multiline">
             <div class="column is-12">
                 <h1 class="title">{{ lead.company }}</h1>
+                <div class="buttons">
+                    <button @click="convertToClient" class="button is-info">Convert to Client</button>
+                </div>
                 <router-link :to="{ name: 'EditLead', params: lead.id }" class="button is-light">Edit</router-link>
             </div>
 
@@ -12,7 +15,8 @@
 
                     <template v-if="lead.assigned_to">
                         <p><strong>Assigned to:</strong>
-                            {{ lead.assigned_to.username }}</p>
+                            {{ lead.assigned_to.first_name }}
+                            {{ lead.assigned_to.last_name }}</p>
                     </template>
                     <p><strong>Status:</strong> {{ lead.status }}</p>
                     <p><strong>Priority:</strong> {{ lead.priority }}</p>
@@ -64,6 +68,24 @@ export default {
                 .catch(error => console.log(error))
 
             this.$store.commit('setIsLoading', false)
+        },
+        async convertToClient() {
+            this.$store.commit('setIsLoading', true)
+            const leadId = this.$route.params.id
+            const data = {
+                lead_id: leadId
+            }
+
+
+            await axios.
+                post(`/api/v1/convert_lead_to_client/`, data)
+                .then(response => {
+                    console.log('converted to client')
+                    this.$router.push('dashboard/clients/')
+                })
+                .catch(error => console.log(error))
+            this.$store.commit('setIsLoading', false)
+
         }
     }
 }
