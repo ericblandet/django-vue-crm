@@ -4,6 +4,14 @@
             <div class="column is-12">
                 <h1 class="title">Clients</h1>
                 <router-link to="/dashboard/clients/add">Add clients</router-link>
+                <hr>
+                <form>
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input type="text" class="input" v-model="query" @keyup="submitForm()">
+                        </div>
+                    </div>
+                </form>
             </div>
 
             <div class="column is-12">
@@ -31,6 +39,25 @@
                 <template v-else>
                     <p>You don't have any client yet ...</p>
                 </template>
+
+                <div class="level">
+
+                    <div class="level-left">
+
+                        <div class="buttons">
+                            <button class="button is-light" v-if="showPreviousButton"
+                                @click="goToPreviousPage()">Previous</button>
+                            <button class="button is-light" v-if="showNextButton" @click="goToNextPage()">Next</button>
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <div class="page-count">
+                            <span v-if="numberOfRecords > 0">
+                                <strong>Number of records:</strong> {{ numberOfRecords }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -44,25 +71,49 @@ export default {
     name: "Clients",
     data() {
         return {
-            clients: []
+            clients: [],
+            showNextButton: false,
+            showPreviousButton: false,
+            currentPage: 1,
+            numberOfRecords: 0,
+            query: ''
         }
     },
     mounted() {
-        this.getClientss()
+        this.getClients()
     },
     methods: {
-        async getClientss() {
+        goToNextPage() {
+            this.currentPage += 1;
+            this.getClients();
+        },
+        goToPreviousPage() {
+            this.currentPage -= 1;
+            this.getClients();
+        },
+        async getClients() {
             this.$store.commit('setIsLoading', true)
 
-            await axios.get('/api/v1/clients/')
+            await axios.get(`/api/v1/clients/?page=${this.currentPage}&search=${this.query}`)
                 .then(response => {
-                    this.clients = response.data
+                    this.clients = response.data.results
+                    if (response.data.next) {
+                        this.showNextButton = true
+                    }
+                    if (response.data.previous) {
+                        this.showPreviousButton = true
+                    }
+                    this.numberOfRecords = response?.data?.count
                 })
                 .catch(error => {
                     console.log(error)
                 })
 
             this.$store.commit('setIsLoading', false)
+        },
+        submitForm() {
+            this.currentPage = 1
+            this.getClients()
         }
     }
 };

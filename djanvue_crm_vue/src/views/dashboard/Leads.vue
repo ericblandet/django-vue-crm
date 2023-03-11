@@ -3,7 +3,16 @@
         <div class="columns is-multiline">
             <div class="column is-12">
                 <h1 class="title">Leads</h1>
-                <router-link to="/dashboard/leads/add">Add lead</router-link>
+                <router-link v-if="num_leads < $store.state.team.max_clients" to="/dashboard/leads/add">Add
+                    lead</router-link>
+                <hr>
+                <form>
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input type="text" class="input" v-model="query" @keyup="submitForm()" placeholder="Search">
+                        </div>
+                    </div>
+                </form>
             </div>
 
             <div class="column is-12">
@@ -35,6 +44,24 @@
 
                     </tbody>
                 </table>
+                <div class="level">
+
+                    <div class="level-left">
+
+                        <div class="buttons">
+                            <button class="button is-light" v-if="showPreviousButton"
+                                @click="goToPreviousPage()">Previous</button>
+                            <button class="button is-light" v-if="showNextButton" @click="goToNextPage()">Next</button>
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <div class="page-count">
+                            <span v-if="numberOfRecords > 0">
+                                <strong>Number of records:</strong> {{ numberOfRecords }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -42,30 +69,59 @@
 </template>
   
 <script>
+import { throwStatement } from '@babel/types';
 import axios from 'axios'
 export default {
     name: "Leads",
     data() {
         return {
-            leads: []
+            leads: [],
+            showNextButton: false,
+            showPreviousButton: false,
+            currentPage: 1,
+            numberOfRecords: 0,
+            num_leads: 0,
+            query: ''
         }
     },
     mounted() {
         this.getLeads()
     },
     methods: {
+        goToNextPage() {
+            this.currentPage += 1;
+            this.getLeads();
+        },
+        goToPreviousPage() {
+            this.currentPage -= 1;
+            this.getLeads();
+        },
         async getLeads() {
             this.$store.commit('setIsLoading', true)
 
-            await axios.get('/api/v1/leads/')
+            this.showNextButton = false
+            this.showPreviousButton = false
+
+            await axios.get(`/api/v1/leads/?page=${this.currentPage}&search=${this.query}`)
                 .then(response => {
-                    this.leads = response.data
+                    this.leads = response.data.results
+                    if (response.data.next) {
+                        this.showNextButton = true
+                    }
+                    if (response.data.previous) {
+                        this.showPreviousButton = true
+                    }
+                    this.numberOfRecords = response?.data?.count
                 })
                 .catch(error => {
                     console.log(error)
                 })
 
             this.$store.commit('setIsLoading', false)
+        },
+        submitForm() {
+            this.currentPage = 1
+            this.getLeads()
         }
     }
 };
