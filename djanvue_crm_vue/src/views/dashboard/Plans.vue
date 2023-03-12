@@ -35,6 +35,10 @@
             </div>
 
         </div>
+        <hr>
+        <div class="column is-12">
+            <button class="button is-danger" @click="cancelPlan()">Cancel plan</button>
+        </div>
     </div>
 </template>
 
@@ -59,7 +63,7 @@ export default {
         async getPubKey() {
             this.$store.commit('setIsLoading', true)
             await axios
-                .get(`api/v1/stripe/get_stripe_pub_key`)
+                .get(`api/v1/stripe/get_stripe_pub_key/`)
                 .then(response => {
                     this.pub_key = response.data.pub_key
                 })
@@ -69,6 +73,44 @@ export default {
             this.$store.commit('setIsLoading', false)
 
         },
+        async cancelPlan() {
+            this.$store.commit('setIsLoading', true)
+            axios
+                .post(`/api/v1/teams/cancel_plan/`, {})
+                .then(response => {
+                    this.$store.commit('setTeam', {
+                        id: response.data.id,
+                        name: response.data.name,
+                        plan: response.data.plan.name,
+                        max_leads: response.data.plan.max_leads,
+                        max_clients: response.data.plan.max_clients,
+                        plan_end_date: response.data.plan_end_date,
+                    })
+
+                    toast({
+                        message: 'The plan was cancelled',
+                        type: 'is-success',
+                        dismissible: true,
+                        pauseOnHover: true,
+                        duration: 2000,
+                        position: 'bottom-right',
+                    })
+
+                }).catch(error => {
+                    console.log('Error:', error)
+                    toast({
+                        message: 'Something went wrong',
+                        type: 'is-danger',
+                        dismissible: true,
+                        pauseOnHover: true,
+                        duration: 2000,
+                        position: 'bottom-right',
+                    })
+                })
+
+            this.$store.commit('setIsLoading', false)
+        }
+        ,
         async subscribe(plan) {
             this.$store.commit('setIsLoading', true)
 
@@ -85,31 +127,6 @@ export default {
                 }).catch(error => {
                     console.log('Error:', error)
                 })
-
-            // await axios
-            //     .post(`/api/v1/teams/upgrade_plan/`, data)
-            //     .then(response => {
-            //         this.$store.commit('setTeam', {
-            //             id: response.data.id,
-            //             name: response.data.name,
-            //             plan: response.data.plan.name,
-            //             max_leads: response.data.plan.max_leads,
-            //             max_clients: response.data.plan.max_clients,
-            //         })
-            //         this.$router.push('/dashboard/team/plans/thankyou')
-
-            //         toast({
-            //             message: 'The plan has changed',
-            //             type: 'is-success',
-            //             dismissible: true,
-            //             pauseOnHover: true,
-            //             duration: 2000,
-            //             position: 'bottom-right',
-            //         })
-            //     })
-            //     .catch(error => {
-            //         console.log(error)
-            //     })
 
             this.$store.commit('setIsLoading', false)
         }

@@ -72,3 +72,12 @@ def convert_lead_to_client(request):
     )
 
     return Response()
+
+
+@api_view(['POST'])
+def delete_client(request, client_id):
+    team = Team.objects.filter(members__in=[request.user]).first()
+    client = team.clients.filter(pk=client_id)
+    client.delete()
+
+    return Response({'message': 'The client has been deleted'})

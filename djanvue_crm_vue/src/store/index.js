@@ -63,6 +63,7 @@ export default createStore({
       localStorage.setItem("team_plan", team.plan);
       localStorage.setItem("team_max_leads", team.max_leads);
       localStorage.setItem("team_max_clients", team.max_clients);
+      localStorage.setItem("team_plan_end_date", team.plan_end_date);
     },
   },
   getters: {},

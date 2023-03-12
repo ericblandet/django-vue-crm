@@ -61,7 +61,6 @@ def get_my_team(request):
 @api_view(['GET'])
 def get_stripe_pub_key(request):
     pub_key = settings.STRIPE_PUB_KEY
-
     return Response({'pub_key': pub_key})
 
 
@@ -94,6 +93,7 @@ def upgrade_plan(request):
         plan = Plan.objects.get(name='Large Team')
 
     team.plan = plan
+
     team.save()
 
     return Response(serializer.data)
@@ -110,18 +110,36 @@ def check_session(request):
             team.stripe_subscription_id)
         product = stripe.Product.retrieve(subscription.plan.product)
 
-        team.plan.status = Team.PLAN_ACTIVE
+        team.plan_status = Team.PLAN_ACTIVE
         team.plan_end_date = datetime.fromtimestamp(
             subscription.current_period_end)
         team.plan = Plan.objects.get(name=product.name)
         team.save()
 
         serializer = TeamSerializer(team)
-        print(serializer.data)
         return Response(serializer.data)
     except Exception:
         error = 'There is something wrong, please try again'
         return Response({'error': error})
+
+
+@api_view(['POST'])
+def cancel_plan(request):
+    team = Team.objects.filter(members__in=[request.user]).first()
+
+    plan_free = Plan.objects.get(name='Free plan')
+    team.plan = plan_free
+    team.plan_status = Team.PLAN_CANCELLED
+    team.save()
+
+    try:
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.Subscription.delete(team.stripe_subscription_id)
+    except Exception:
+        return Response({'error': "Something went wrong, please try again"})
+
+    serializer = TeamSerializer(team)
+    return Response(serializer.data)
 
 
 @api_view(['POST'])
@@ -157,7 +175,6 @@ def stripe_webhook(request):
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     event = None
-    print('payload', payload)
 
     try:
         event = stripe.Webhook.construct_event(

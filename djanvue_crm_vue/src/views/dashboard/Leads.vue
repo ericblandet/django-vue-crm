@@ -3,10 +3,13 @@
         <div class="columns is-multiline">
             <div class="column is-12">
                 <h1 class="title">Leads</h1>
-                <router-link v-if="num_leads < $store.state.team.max_clients" to="/dashboard/leads/add">Add
-                    lead</router-link>
-                <div class="notification is-danger" v-else>You have reach the top of your limitations. Please upgrade your
+                <router-link class="button is-info" to="/dashboard/leads/add"
+                    v-if="num_leads < $store.state.team.max_clients">
+                    Add lead </router-link>
+                <div class="notification is-danger" v-else>You have reach the top of your limitations. Please upgrade
+                    your
                     plan!</div>
+
                 <hr>
                 <form>
                     <div class="field has-addons">

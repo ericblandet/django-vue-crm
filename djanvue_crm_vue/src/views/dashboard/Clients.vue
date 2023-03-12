@@ -3,16 +3,17 @@
         <div class="columns is-multiline">
             <div class="column is-12">
                 <h1 class="title">Clients</h1>
-                <router-link v-if="num_clients < $store.state.team.max_clients" to="/dashboard/clients/add">Add
-                    clients</router-link>
-
-                <div class="notification is-danger" v-else>You have reach the top of your limitations. Please upgrade your
+                <router-link v-if="num_clients < $store.state.team.max_clients" to="/dashboard/clients/add"
+                    class="button is-primary">Add
+                    client</router-link>
+                <div class="notification is-danger" v-else>You have reach the top of your limitations. Please upgrade
+                    your
                     plan!</div>
                 <hr>
                 <form>
                     <div class="field has-addons">
                         <div class="control">
-                            <input type="text" class="input" v-model="query" @keyup="submitForm()">
+                            <input type="text" placeholder="Search" class="input" v-model="query" @keyup="submitForm()">
                         </div>
                     </div>
                 </form>

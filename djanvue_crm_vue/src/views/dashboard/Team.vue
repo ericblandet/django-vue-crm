@@ -7,6 +7,8 @@
                 <p><strong>Plan: </strong>{{ $store.state.team.plan }}</p>
                 <p><strong>Max leads: </strong>{{ $store.state.team.max_leads }}</p>
                 <p><strong>Max clients: </strong>{{ $store.state.team.max_clients }}</p>
+                <p v-if="$store.state.team.plan !== 'Free Plan'"><strong>Plan end date: </strong>{{
+                    $store.state.team.plan_end_date }}</p>
 
                 <p>
                     <router-link :to="{ 'name': 'Plans' }">Change plan</router-link>

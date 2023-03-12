@@ -36,6 +36,10 @@ export default {
             localStorage.removeItem('user_id')
             localStorage.removeItem('team_name')
             localStorage.removeItem('team_id')
+            localStorage.removeItem('team_max_leads')
+            localStorage.removeItem('team_max_clients')
+            localStorage.removeItem('team_plan_end_date')
+            localStorage.removeItem('team_plan')
             this.$store.commit('removeToken')
 
             this.$router.push('/')

@@ -46,7 +46,7 @@ export default {
                     plan: response.data.plan.name,
                     max_leads: response.data.plan.max_leads,
                     max_clients: response.data.plan.max_clients,
-
+                    plan_end_date: response.data.plan_end_date,
                 })
             })
             .catch((error) => {
