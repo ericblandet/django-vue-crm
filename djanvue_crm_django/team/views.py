@@ -1,6 +1,11 @@
+from datetime import datetime
+import json
+import stripe
+
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.http import Http404
+from django.http import Http404, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
@@ -92,3 +97,81 @@ def upgrade_plan(request):
     team.save()
 
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def check_session(request):
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    error = ''
+
+    try:
+        team = Team.objects.filter(members__in=[request.user]).first()
+        subscription = stripe.Subscription.retrieve(
+            team.stripe_subscription_id)
+        product = stripe.Product.retrieve(subscription.plan.product)
+
+        team.plan.status = Team.PLAN_ACTIVE
+        team.plan_end_date = datetime.fromtimestamp(
+            subscription.current_period_end)
+        team.plan = Plan.objects.get(name=product.name)
+        team.save()
+
+        serializer = TeamSerializer(team)
+        print(serializer.data)
+        return Response(serializer.data)
+    except Exception:
+        error = 'There is something wrong, please try again'
+        return Response({'error': error})
+
+
+@api_view(['POST'])
+def create_checkout_session(request):
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    data = json.loads(request.body)
+    plan = data['plan']
+    if plan == 'smallTeam':
+        price_id = settings.STRIPE_PRICE_ID_SMALL_TEAM
+    else:
+        price_id = settings.STRIPE_PRICE_ID_LARGE_TEAM
+
+    team = Team.objects.filter(members__in=[request.user]).first()
+
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            client_reference_id=team.id,
+            success_url='%s?session_id={CHECKOUT_SESSION_ID}' % settings.FRONTEND_WEBSITE_SUCCESS_URL,
+            cancel_url='%s?session_id={CHECKOUT_SESSION_ID}' % settings.FRONTEND_WEBSITE_CANCEL_URL,
+            payment_method_types=['card'],
+            mode='subscription',
+            line_items=[{'price': price_id, 'quantity': 1}]
+        )
+        return Response({'sessionId': checkout_session['id']})
+    except Exception as e:
+        return Response({'error': str(e)})
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    webhook_key = settings.STRIPE_WEBHOOK_KEY
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+    print('payload', payload)
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, webhook_key)
+    except ValueError as e:
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        return HttpResponse(status=400)
+
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        team = Team.objects.get(pk=session.get('client_reference_id'))
+        team.stripe_customer_id = session.get('customer')
+        team.stripe_subscription_id = session.get('subscription')
+        team.save()
+
+    return HttpResponse(200)

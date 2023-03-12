@@ -31,6 +31,10 @@ STRIPE_PUB_KEY = env('STRIPE_PUB_KEY',)
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 STRIPE_PRICE_ID_SMALL_TEAM = env('STRIPE_PRICE_ID_SMALL_TEAM')
 STRIPE_PRICE_ID_LARGE_TEAM = env('STRIPE_PRICE_ID_LARGE_TEAM')
+STRIPE_WEBHOOK_KEY = env('STRIPE_WEBHOOK_KEY')
+
+FRONTEND_WEBSITE_SUCCESS_URL = 'http://localhost:8080/dashboard/team/plans/thankyou'
+FRONTEND_WEBSITE_CANCEL_URL = 'http://localhost:8080/dashboard/team/plans'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!

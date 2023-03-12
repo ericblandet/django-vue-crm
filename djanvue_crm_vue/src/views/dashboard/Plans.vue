@@ -76,30 +76,40 @@ export default {
                 plan: plan
             }
 
-            await axios
-                .post(`/api/v1/teams/upgrade_plan/`, data)
+            axios
+                .post(`/api/v1/stripe/create_checkout_session/`, data)
                 .then(response => {
-                    this.$store.commit('setTeam', {
-                        id: response.data.id,
-                        name: response.data.name,
-                        plan: response.data.plan.name,
-                        max_leads: response.data.plan.max_leads,
-                        max_clients: response.data.plan.max_clients,
-                    })
-                    this.$router.push('/dashboard/team/plans/thankyou')
+                    console.log(response)
 
-                    toast({
-                        message: 'The plan has changed',
-                        type: 'is-success',
-                        dismissible: true,
-                        pauseOnHover: true,
-                        duration: 2000,
-                        position: 'bottom-right',
-                    })
+                    return this.stripe.redirectToCheckout({ sessionId: response.data.sessionId })
+                }).catch(error => {
+                    console.log('Error:', error)
                 })
-                .catch(error => {
-                    console.log(error)
-                })
+
+            // await axios
+            //     .post(`/api/v1/teams/upgrade_plan/`, data)
+            //     .then(response => {
+            //         this.$store.commit('setTeam', {
+            //             id: response.data.id,
+            //             name: response.data.name,
+            //             plan: response.data.plan.name,
+            //             max_leads: response.data.plan.max_leads,
+            //             max_clients: response.data.plan.max_clients,
+            //         })
+            //         this.$router.push('/dashboard/team/plans/thankyou')
+
+            //         toast({
+            //             message: 'The plan has changed',
+            //             type: 'is-success',
+            //             dismissible: true,
+            //             pauseOnHover: true,
+            //             duration: 2000,
+            //             position: 'bottom-right',
+            //         })
+            //     })
+            //     .catch(error => {
+            //         console.log(error)
+            //     })
 
             this.$store.commit('setIsLoading', false)
         }
