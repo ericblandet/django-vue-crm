@@ -1,17 +1,18 @@
 # A simple CRM built with Django and Vue
 
-![demo video](./demo.mov).
+![demo video](./demo.gif).
 
 ## Features:
 
 The app includes the following features:
 
-- Create members and assign them to my team
-- Create, Edit, Delete your leads
-- Create, Edit, Delete your clients
-- Transform a lead into a client
-- Add notes on the clients' accounts
-- Admin can handle the plans
+- Authenticate the user,
+- Create members and assign them to my team,
+- Create, Edit, Delete, Search your leads,
+- Create, Edit, Delete, Search your clients,
+- Transform a lead into a client,
+- Add notes on the clients' accounts,
+- Admin can handle the plans,
 - Stripe payment implemented
 
 ## Stack
@@ -27,3 +28,5 @@ The app includes the following features:
 - Django server : `py manage.py runserver`, once virtual env is sourced
 - Vue server: `npm run serve`
 - Stripe: once Stripe CLI installed, and logged in, run : `stripe listen --forward-to localhost:{DjangoLocalHOSTPORT}/stripe_webhooks`
+
+_Based on a tutorial of [Code with Stein](https://www.youtube.com/playlist?list=PLpyspNLjzwBl-u7Vh8mGfqqRKcVxHzqlp)_
