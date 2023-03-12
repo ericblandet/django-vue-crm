@@ -27,9 +27,12 @@ SECRET_KEY = env('APP_SECRET_KEY')
 
 
 # Stripe pub key
-STRIPE_PUB_KEY = env(
-    'STRIPE_PUB_KEY',)
+STRIPE_PUB_KEY = env('STRIPE_PUB_KEY',)
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+STRIPE_PRICE_ID_SMALL_TEAM = env('STRIPE_PRICE_ID_SMALL_TEAM')
+STRIPE_PRICE_ID_LARGE_TEAM = env('STRIPE_PRICE_ID_LARGE_TEAM')
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', False)
 
