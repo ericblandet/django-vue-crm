@@ -11,19 +11,27 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# reading .env file
+env = environ.Env()
+environ.Env.read_env(env_file=str(BASE_DIR/'djanvue_crm_django'/'.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^p+osgu+534!=aj^%xq^6_%4$f_pc^mk5rtdnzt)krk7k+7=ea'
+SECRET_KEY = env('APP_SECRET_KEY')
 
+
+# Stripe pub key
+STRIPE_PUB_KEY = env(
+    'STRIPE_PUB_KEY',)
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', False)
 
 ALLOWED_HOSTS = []
 
