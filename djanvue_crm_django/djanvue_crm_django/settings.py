@@ -40,7 +40,7 @@ FRONTEND_WEBSITE_CANCEL_URL = 'http://localhost:8080/dashboard/team/plans'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
