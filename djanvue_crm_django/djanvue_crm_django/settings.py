@@ -111,18 +111,18 @@ WSGI_APPLICATION = 'djanvue_crm_django.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
     # 'default': {
-    #     'ENGINE': env('BDD_ENGINE'),
-    #     'NAME': env('BDD_NAME'),
-    #     'USER': env('BDD_USER'),
-    #     'PASSWORD': env('BDD_PASSWORD'),
-    #     'HOST': env('BDD_HOST'),
-    #     'PORT': env('BDD_PORT', default=''),
-    # }
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # },
+    'default': {
+        'ENGINE': env('BDD_ENGINE'),
+        'NAME': env('BDD_NAME'),
+        'USER': env('BDD_USER'),
+        'PASSWORD': env('BDD_PASSWORD'),
+        'HOST': env('BDD_HOST'),
+        'PORT': env('BDD_PORT', default=''),
+    }
 }
 
 
