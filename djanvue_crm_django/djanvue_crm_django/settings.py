@@ -42,9 +42,11 @@ DEBUG = env.bool('DEBUG', False)
 
 ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]
 
-CORS_ALLOWED_ORIGINS = [env('CORS_ALLOWED_ORIGINS', 'http://localhost:8080')]
+CORS_ALLOWED_ORIGINS = [
+    env('CORS_ALLOWED_ORIGINS', default='http://localhost:8080')]
 
-CSRF_TRUSTED_ORIGINS = [env('CSRF_TRUSTED_ORIGINS', 'http://localhost:8080')]
+CSRF_TRUSTED_ORIGINS = [
+    env('CSRF_TRUSTED_ORIGINS', default='http://localhost:8080')]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
