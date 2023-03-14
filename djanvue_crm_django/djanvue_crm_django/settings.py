@@ -33,8 +33,8 @@ STRIPE_PRICE_ID_SMALL_TEAM = env('STRIPE_PRICE_ID_SMALL_TEAM')
 STRIPE_PRICE_ID_LARGE_TEAM = env('STRIPE_PRICE_ID_LARGE_TEAM')
 STRIPE_WEBHOOK_KEY = env('STRIPE_WEBHOOK_KEY')
 
-FRONTEND_WEBSITE_SUCCESS_URL = 'http://localhost:8080/dashboard/team/plans/thankyou'
-FRONTEND_WEBSITE_CANCEL_URL = 'http://localhost:8080/dashboard/team/plans'
+FRONTEND_WEBSITE_SUCCESS_URL = f"{env('BASE_URL')}/{env('FRONTEND_WEBSITE_SUCCESS_PATH')}"
+FRONTEND_WEBSITE_CANCEL_URL = env('FRONTEND_WEBSITE_CANCEL_PATH')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -42,7 +42,9 @@ DEBUG = env.bool('DEBUG', False)
 
 ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]
 
-CORS_ALLOWED_ORIGINS = [env('CORS_ALLOWED_ORIGINS')]
+CORS_ALLOWED_ORIGINS = [env('CORS_ALLOWED_ORIGINS', 'http://localhost:8080')]
+
+CSRF_TRUSTED_ORIGINS = [env('CSRF_TRUSTED_ORIGINS', 'http://localhost:8080')]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -107,18 +109,18 @@ WSGI_APPLICATION = 'djanvue_crm_django.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # },
     'default': {
-        'ENGINE': env('BDD_ENGINE'),
-        'NAME': env('BDD_NAME'),
-        'USER': env('BDD_USER'),
-        'PASSWORD': env('BDD_PASSWORD'),
-        'HOST': env('BDD_HOST'),
-        'PORT': env('BDD_PORT', default=''),
-    }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    # 'default': {
+    #     'ENGINE': env('BDD_ENGINE'),
+    #     'NAME': env('BDD_NAME'),
+    #     'USER': env('BDD_USER'),
+    #     'PASSWORD': env('BDD_PASSWORD'),
+    #     'HOST': env('BDD_HOST'),
+    #     'PORT': env('BDD_PORT', default=''),
+    # }
 }
 
 
