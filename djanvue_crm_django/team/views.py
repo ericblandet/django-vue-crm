@@ -147,9 +147,11 @@ def create_checkout_session(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY
     data = json.loads(request.body)
     plan = data['plan']
-    if plan == 'smallTeam':
+    if plan == 'free':
+        price_id = settings.STRIPE_PRICE_ID_FREE_PLAN
+    elif plan == 'smallTeam':
         price_id = settings.STRIPE_PRICE_ID_SMALL_TEAM
-    else:
+    elif plan == 'largeTeam':
         price_id = settings.STRIPE_PRICE_ID_LARGE_TEAM
 
     team = Team.objects.filter(members__in=[request.user]).first()

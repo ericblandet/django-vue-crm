@@ -37,8 +37,8 @@ export default createStore({
         state.team.id = "";
         state.team.name = "";
         state.team.plan = "";
-        state.team.max_leads = 0;
-        state.team.max_clients = 0;
+        state.team.max_leads = 5;
+        state.team.max_clients = 5;
       }
     },
     setIsLoading(state, status) {
