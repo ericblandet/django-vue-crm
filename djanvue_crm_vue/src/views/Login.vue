@@ -111,10 +111,10 @@
             this.$store.commit("setTeam", {
               id: response.data.id,
               name: response.data.name,
-              plan: response.data?.plan?.name,
-              max_leads: response.data?.plan.max_leads,
-              max_clients: response.data?.plan.max_clients,
-              plan_end_date: response.data?.plan_end_date,
+              plan: response.data?.plan?.name ?? "Free Plan",
+              max_leads: response.data?.plan?.max_leads ?? 5,
+              max_clients: response.data?.plan?.max_clients ?? 5,
+              plan_end_date: response.data?.plan_end_date ?? "",
             });
             this.$router.push("/dashboard/my-account");
           })
