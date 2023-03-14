@@ -20,8 +20,8 @@
         <div class="box">
           <h2 class="subtitle">Small team</h2>
           <h4 class="is-size-3">10 CHF</h4>
-          <p>Max 10 leads</p>
-          <p>Max 10 clients</p>
+          <p>Max 25 leads</p>
+          <p>Max 25 clients</p>
           <button class="button is-primary" @click="subscribe('smallTeam')">
             Subscribe
           </button>
@@ -31,8 +31,8 @@
         <div class="box">
           <h2 class="subtitle">Large team</h2>
           <h4 class="is-size-3">25 CHF</h4>
-          <p>Max 25 leads</p>
-          <p>Max 25 clients</p>
+          <p>Max 50 leads</p>
+          <p>Max 50 clients</p>
           <button class="button is-primary" @click="subscribe('largeTeam')">
             Subscribe
           </button>
