@@ -8,19 +8,34 @@
           <div class="field">
             <label for="email">Email</label>
             <div class="control">
-              <input type="email" name="email" class="input" v-model="username" />
+              <input
+                type="email"
+                name="email"
+                class="input"
+                v-model="username"
+              />
             </div>
           </div>
           <div class="field">
             <label for="password1">Password</label>
             <div class="control">
-              <input type="password" name="password1" class="input" v-model="password1" />
+              <input
+                type="password"
+                name="password1"
+                class="input"
+                v-model="password1"
+              />
             </div>
           </div>
           <div class="field">
             <label for="password2">Repeat Password</label>
             <div class="control">
-              <input type="password" name="password2" class="input" v-model="password2" />
+              <input
+                type="password"
+                name="password2"
+                class="input"
+                v-model="password2"
+              />
             </div>
           </div>
 
@@ -40,68 +55,72 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { toast } from 'bulma-toast'
+  import axios from "axios";
+  import { toast } from "bulma-toast";
 
-
-export default {
-  name: "SignUp",
-  data() {
-    return {
-      username: '',
-      password1: '',
-      password2: '',
-      errors: []
-    }
-  },
-  methods: {
-    async submitForm() {
-      this.$store.commit('setIsLoading', true)
-      this.errors = []
-      if (this.username === '') {
-        this.errors.push('The username is missing')
-      }
-      if (this.password1 === '') {
-        this.errors.push('The password is too short')
-      }
-      if (this.password1 !== this.password2) {
-        this.errors.push('The passwords do not match to each other')
-      }
-
-      let formData = {}
-      if (!this.errors.length) {
-        formData = {
-          username: this.username,
-          password: this.password1,
+  export default {
+    name: "SignUp",
+    data() {
+      return {
+        username: "",
+        password1: "",
+        password2: "",
+        errors: [],
+      };
+    },
+    methods: {
+      async submitForm() {
+        this.$store.commit("setIsLoading", true);
+        this.errors = [];
+        if (this.username === "") {
+          this.errors.push("The username is missing");
         }
-      }
+        if (this.password1 === "") {
+          this.errors.push("The password is too short");
+        }
+        if (this.password1 !== this.password2) {
+          this.errors.push("The passwords do not match to each other");
+        }
 
-      await axios.post('/api/v1/users/', formData).then(
-        (response) => {
-          toast({
-            message: 'Account was successfully created, please log in !',
-            type: 'is-success',
-            dismissible: true,
-            pauseOnHover: true,
-            duration: 2000,
-            position: 'bottom-right',
+        let formData = {};
+        if (!this.errors.length) {
+          formData = {
+            username: this.username,
+            password: this.password1,
+          };
+        }
+
+        await axios
+          .post("/api/v1/users/", formData)
+          .then((response) => {
+            toast({
+              message: "Account was successfully created, please log in !",
+              type: "is-success",
+              dismissible: true,
+              pauseOnHover: true,
+              duration: 2000,
+              position: "bottom-right",
+            });
+
+            this.$router.push("/login");
           })
-
-          this.$router.push('/login')
-        }).catch(error => {
-          if (error.response) {
-            console.log(error.response)
-            for (const property in error.response.data) {
-              this.errors.push(`${property}: ${error.response.data[property]}`)
+          .catch((error) => {
+            if (error.response) {
+              if (this.$store.state.debugMode) {
+                console.log(error.response);
+              }
+              for (const property in error.response.data) {
+                this.errors.push(
+                  `${property}: ${error.response.data[property]}`
+                );
+              }
+            } else if (error.message) {
+              this.errors.push("Something went wrong, please try again");
             }
-          } else if (error.message) {
-            this.errors.push('Something went wrong, please try again')
-          }
-        })
+          });
 
-      this.$store.commit('setIsLoading', false)
-    }
-  }
-};
-
+        this.$store.commit("setIsLoading", false);
+      },
+    },
+  };
 </script>

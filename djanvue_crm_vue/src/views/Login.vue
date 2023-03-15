@@ -103,7 +103,11 @@
             localStorage.setItem("username", response.data.username);
             localStorage.setItem("user_id", response.data.id);
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            if (this.$store.state.debugMode) {
+              console.log(error);
+            }
+          });
 
         await axios
           .get("/api/v1/teams/get_my_team/")

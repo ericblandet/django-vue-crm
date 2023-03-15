@@ -151,7 +151,9 @@
             this.numberOfRecords = response?.data?.count;
           })
           .catch((error) => {
-            console.log(error);
+            if (this.$store.state.debugMode) {
+              console.log(error);
+            }
           });
 
         this.$store.commit("setIsLoading", false);

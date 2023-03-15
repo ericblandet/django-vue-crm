@@ -73,7 +73,11 @@
           .then((response) => {
             this.lead = response.data;
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            if (this.$store.state.debugMode) {
+              console.log(error);
+            }
+          });
 
         this.$store.commit("setIsLoading", false);
       },
@@ -87,10 +91,13 @@
         await axios
           .post(`/api/v1/convert_lead_to_client/`, data)
           .then((response) => {
-            console.log("converted to client");
             this.$router.push({ name: "Clients" });
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            if (this.$store.state.debugMode) {
+              console.log(error);
+            }
+          });
         this.$store.commit("setIsLoading", false);
       },
       async deleteLead() {
@@ -110,7 +117,11 @@
             });
             this.$router.push({ name: "Leads" });
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            if (this.$store.state.debugMode) {
+              console.log(error);
+            }
+          });
 
         this.$store.commit("setIsLoading", false);
       },

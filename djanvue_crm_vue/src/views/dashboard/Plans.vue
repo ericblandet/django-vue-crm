@@ -73,7 +73,9 @@
             this.pub_key = response.data.pub_key;
           })
           .catch((error) => {
-            console.log(error);
+            if (this.$store.state.debugMode) {
+              console.log(error);
+            }
           });
         this.$store.commit("setIsLoading", false);
       },
@@ -101,7 +103,9 @@
             });
           })
           .catch((error) => {
-            console.log("Error:", error);
+            if (this.$store.state.debugMode) {
+              console.log("Error:", error);
+            }
             toast({
               message: "Something went wrong",
               type: "is-danger",
@@ -124,14 +128,18 @@
         axios
           .post(`/api/v1/stripe/create_checkout_session/`, data)
           .then((response) => {
-            console.log(response);
+            if (this.$store.state.debugMode) {
+              console.log(response);
+            }
 
             return this.stripe.redirectToCheckout({
               sessionId: response.data.sessionId,
             });
           })
           .catch((error) => {
-            console.log("Error:", error);
+            if (this.$store.state.debugMode) {
+              console.log("Error:", error);
+            }
           });
 
         this.$store.commit("setIsLoading", false);
