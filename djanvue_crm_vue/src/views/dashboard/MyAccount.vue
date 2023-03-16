@@ -15,7 +15,9 @@
         </div>
         <div class="">
           <span>Application administrator ?</span>
-          <a :href="`${$store.state.apiUrl}/admin`"> Go to Admin dashboard</a>
+          <a :href="`${$store.state.apiUrl}admin`" target="_blank" no>
+            Go to Admin dashboard</a
+          >
         </div>
       </div>
     </div>
