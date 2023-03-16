@@ -120,8 +120,14 @@
               max_clients: response.data?.plan?.max_clients ?? 5,
               plan_end_date: response.data?.plan_end_date ?? "",
             });
-            this.$router.push("/dashboard/my-account");
+
+            if (response.data.name == "") {
+              this.$router.push({ name: "AddTeam" });
+            } else {
+              this.$router.push("/dashboard/my-account");
+            }
           })
+
           .catch((error) => console.log(error));
 
         this.$store.commit("setIsLoading", false);

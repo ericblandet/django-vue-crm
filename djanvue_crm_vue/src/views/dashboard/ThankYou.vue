@@ -30,6 +30,9 @@
           session_id: this.$route.query.session_id,
         })
         .then((response) => {
+          if (this.$store.state.debugMode) {
+            console.log("response = ", response.data);
+          }
           toast({
             message: "The plan was changed",
             type: "is-success",

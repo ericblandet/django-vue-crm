@@ -15,7 +15,7 @@
           <router-link :to="{ name: 'Plans' }">Change plan</router-link>
         </p>
         <hr />
-        <template v-if="team.created_by.id === $store.state.user.id">
+        <template v-if="team?.created_by?.id === $store.state.user.id">
           <router-link :to="{ name: 'AddMember' }" class="button is-primary"
             >Add Member</router-link
           >
@@ -64,7 +64,7 @@
           .get("/api/v1/teams/get_my_team/")
           .then((response) => {
             if (this.$store.state.debugMode) {
-              console.log(response);
+              console.log("team", response.data);
             }
             this.team = response.data;
           })
