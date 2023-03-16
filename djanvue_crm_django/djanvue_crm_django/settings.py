@@ -59,13 +59,13 @@ REST_FRAMEWORK = {
 
 # Application definition
 INSTALLED_APPS = [
+    'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',  # to test whitenoise locally
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     # customs:
     'rest_framework',
     'rest_framework.authtoken',
@@ -164,7 +164,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 # collecte toutes les resources statiques qui seront collectées grace à la commande py manage.py collectstatic
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
