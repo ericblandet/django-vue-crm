@@ -164,7 +164,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 # collecte toutes les resources statiques qui seront collectées grace à la commande py manage.py collectstatic
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
