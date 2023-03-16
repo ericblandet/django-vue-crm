@@ -1,4 +1,5 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/54c0d2d1-de77-4c09-bc68-137d3933f715/deploy-status)](https://app.netlify.com/sites/djangvue-crm/deploys)
+The site is live: you can check it [here](https://djangvue-crm.netlify.app/)!
 
 # A simple CRM built with Django and Vue
 
