@@ -41,6 +41,7 @@ export default createStore({
         state.team.max_clients = 0;
       }
       state.debugMode = process?.env?.VUE_APP_DEBUG == "true";
+      state.apiUrl = process.env.VUE_APP_BASE_SERVER_URL;
     },
     setIsLoading(state, status) {
       state.isLoading = status;

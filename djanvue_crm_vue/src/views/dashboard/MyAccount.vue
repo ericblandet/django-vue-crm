@@ -13,6 +13,10 @@
           >
           <button @click="logout()" class="button is-danger">Logout</button>
         </div>
+        <div class="">
+          <span>Application administrator ?</span>
+          <a :href="`${$store.state.apiUrl}/admin`"> Go to Admin dashboard</a>
+        </div>
       </div>
     </div>
   </div>
