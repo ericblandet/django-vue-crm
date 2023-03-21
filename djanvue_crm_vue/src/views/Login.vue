@@ -119,7 +119,7 @@
               max_leads: response.data?.plan?.max_leads ?? 5,
               max_clients: response.data?.plan?.max_clients ?? 5,
               plan_end_date: response.data?.plan_end_date ?? "",
-              created_by_id: response.data?.created_by.id ?? "",
+              created_by_id: response.data?.created_by?.id ?? "",
             });
 
             if (response.data.name == "") {

@@ -5,9 +5,9 @@
         <h1 class="title">Plans</h1>
       </div>
 
-      <div class="column is-4">
+      <div class="column is-4" v-if="$store.state.team.plan != 'Free Plan'">
         <div class="box">
-          <h2 class="subtitle">Free</h2>
+          <h2 class="subtitle">Free Plan</h2>
           <h4 class="is-size-3">0 CHF</h4>
           <p>Max 5 leads</p>
           <p>Max 5 clients</p>
@@ -16,7 +16,7 @@
           </button>
         </div>
       </div>
-      <div class="column is-4">
+      <div class="column is-4" v-if="$store.state.team.plan != 'Small Team'">
         <div class="box">
           <h2 class="subtitle">Small team</h2>
           <h4 class="is-size-3">10 CHF</h4>
@@ -27,7 +27,7 @@
           </button>
         </div>
       </div>
-      <div class="column is-4">
+      <div class="column is-4" v-if="$store.state.team.plan != 'Large Team'">
         <div class="box">
           <h2 class="subtitle">Large team</h2>
           <h4 class="is-size-3">50 CHF</h4>
@@ -39,8 +39,8 @@
         </div>
       </div>
     </div>
-    <hr />
-    <div class="column is-12">
+    <div class="column is-12" v-if="$store.state.team?.plan_end_date">
+      <hr />
       <button class="button is-danger" @click="cancelPlan()">
         Cancel plan
       </button>
@@ -84,6 +84,9 @@
         axios
           .post("/api/v1/teams/cancel_plan/", {})
           .then((response) => {
+            if (this.$store.state.debugMode) {
+              console.log("response.data:", response.data);
+            }
             localStorage.removeItem("team_max_leads");
             localStorage.removeItem("team_max_clients");
             localStorage.removeItem("team_plan_end_date");

@@ -72,7 +72,11 @@
               created_by_id: response.data.created_by.id,
             });
 
-            this.$router.push("/dashboard/leads");
+            if (!response.data.plan_end_date) {
+              this.$router.push({ name: "Plans" });
+            } else {
+              this.$router.push("/dashboard/leads");
+            }
           })
           .catch((error) => {
             if (this.$store.state.debugMode) {

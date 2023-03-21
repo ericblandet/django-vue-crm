@@ -30,6 +30,6 @@ The app includes the following features:
 
 - Django server : `py manage.py runserver`, once virtual env is sourced
 - Vue server: `npm run serve`
-- Stripe: once Stripe CLI installed, and logged in, run : `stripe listen --forward-to localhost:{DjangoLocalHOSTPORT}/stripe_webhooks`
+- Stripe: once Stripe CLI installed, and logged in, run : `./stripe listen --forward-to localhost:{DjangoLocalHOSTPORT}/stripe_webhooks`
 
 _Based on a tutorial of [Code with Stein](https://www.youtube.com/playlist?list=PLpyspNLjzwBl-u7Vh8mGfqqRKcVxHzqlp)_
