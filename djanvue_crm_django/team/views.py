@@ -135,7 +135,6 @@ def cancel_plan(request):
     team.plan_status = Team.PLAN_CANCELLED
     team.save()
     try:
-        print('///////////////////////////////////////////////////')
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe.Subscription.delete(team.stripe_subscription_id)
     except Exception:

@@ -40,7 +40,7 @@ export default createStore({
         state.team.plan = "";
         state.team.max_leads = 0;
         state.team.max_clients = 0;
-        state.team.created_by = "";
+        state.team.created_by_id = "";
       }
       state.debugMode = process?.env?.VUE_APP_DEBUG == "true";
       state.apiUrl = process.env.VUE_APP_BASE_SERVER_URL;
