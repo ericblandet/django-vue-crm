@@ -2,7 +2,7 @@
   <div class="container">
     <div class="columns">
       <div class="column is-4 is-offset-4">
-        <h1 class="title">Sign up</h1>
+        <h1 class="title">Login</h1>
 
         <form @submit.prevent="submitForm">
           <div class="field">
@@ -119,6 +119,7 @@
               max_leads: response.data?.plan?.max_leads ?? 5,
               max_clients: response.data?.plan?.max_clients ?? 5,
               plan_end_date: response.data?.plan_end_date ?? "",
+              created_by_id: response.data?.created_by.id ?? "",
             });
 
             if (response.data.name == "") {

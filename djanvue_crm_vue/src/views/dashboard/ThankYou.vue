@@ -42,6 +42,11 @@
             position: "bottom-right",
           });
 
+          localStorage.removeItem("team_max_leads");
+          localStorage.removeItem("team_max_clients");
+          localStorage.removeItem("team_plan_end_date");
+          localStorage.removeItem("team_plan");
+
           this.$store.commit("setTeam", {
             id: response.data.id,
             name: response.data.name,
@@ -49,6 +54,7 @@
             max_leads: response.data.plan.max_leads,
             max_clients: response.data.plan.max_clients,
             plan_end_date: response.data.plan_end_date,
+            created_by_id: response.data.created_by.id,
           });
         })
         .catch((error) => {

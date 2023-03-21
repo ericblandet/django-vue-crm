@@ -29,6 +29,7 @@ export default createStore({
         state.team.max_leads = localStorage.getItem("team_max_leads");
         state.team.max_clients = localStorage.getItem("team_max_clients");
         state.team.id = localStorage.getItem("team_id");
+        state.team.created_by_id = localStorage.getItem("team_created_by_id");
       } else {
         state.token = "";
         state.isAuthenticated = false;
@@ -39,6 +40,7 @@ export default createStore({
         state.team.plan = "";
         state.team.max_leads = 0;
         state.team.max_clients = 0;
+        state.team.created_by = "";
       }
       state.debugMode = process?.env?.VUE_APP_DEBUG == "true";
       state.apiUrl = process.env.VUE_APP_BASE_SERVER_URL;
@@ -66,6 +68,7 @@ export default createStore({
       localStorage.setItem("team_max_leads", team.max_leads);
       localStorage.setItem("team_max_clients", team.max_clients);
       localStorage.setItem("team_plan_end_date", team.plan_end_date);
+      localStorage.setItem("team_created_by_id", team.created_by_id);
     },
   },
   getters: {},

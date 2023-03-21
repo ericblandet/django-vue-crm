@@ -4,7 +4,7 @@
       <div class="column is-12">
         <h1 class="title">Leads</h1>
         <router-link
-          class="button is-info"
+          class="button is-primary"
           to="/dashboard/leads/add"
           v-if="num_leads < $store.state.team.max_clients"
         >

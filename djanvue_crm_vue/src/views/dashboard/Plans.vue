@@ -30,7 +30,7 @@
       <div class="column is-4">
         <div class="box">
           <h2 class="subtitle">Large team</h2>
-          <h4 class="is-size-3">25 CHF</h4>
+          <h4 class="is-size-3">50 CHF</h4>
           <p>Max 50 leads</p>
           <p>Max 50 clients</p>
           <button class="button is-primary" @click="subscribe('largeTeam')">
@@ -82,8 +82,13 @@
       async cancelPlan() {
         this.$store.commit("setIsLoading", true);
         axios
-          .post(`/api/v1/teams/cancel_plan/`, {})
+          .post("/api/v1/teams/cancel_plan/", {})
           .then((response) => {
+            localStorage.removeItem("team_max_leads");
+            localStorage.removeItem("team_max_clients");
+            localStorage.removeItem("team_plan_end_date");
+            localStorage.removeItem("team_plan");
+
             this.$store.commit("setTeam", {
               id: response.data.id,
               name: response.data.name,
@@ -91,6 +96,7 @@
               max_leads: response.data.plan.max_leads,
               max_clients: response.data.plan.max_clients,
               plan_end_date: response.data.plan_end_date,
+              created_by: response.data.created_by,
             });
 
             toast({

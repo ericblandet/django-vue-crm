@@ -26,6 +26,9 @@ class TeamViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         obj = serializer.save(created_by=self.request.user)
         obj.members.add(self.request.user)
+        plan_free = Plan.objects.get(name='Free Plan')
+        obj.plan = plan_free
+        obj.plan_status = Team.PLAN_ACTIVE
         obj.save()
 
 
@@ -127,12 +130,12 @@ def check_session(request):
 def cancel_plan(request):
     team = Team.objects.filter(members__in=[request.user]).first()
 
-    plan_free = Plan.objects.get(name='Free plan')
+    plan_free = Plan.objects.get(name='Free Plan')
     team.plan = plan_free
     team.plan_status = Team.PLAN_CANCELLED
     team.save()
-
     try:
+        print('///////////////////////////////////////////////////')
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe.Subscription.delete(team.stripe_subscription_id)
     except Exception:
